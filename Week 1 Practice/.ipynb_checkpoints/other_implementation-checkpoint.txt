@@ -1,0 +1,17 @@
+# feature scaling for torch.Tensor
+class TorchStandardScaler:
+  def fit(self, x):
+    self.mean = x.mean(0, keepdim=True)
+    self.std = x.std(0, unbiased=False, keepdim=True)
+  def transform(self, x):
+    x -= self.mean
+    x /= (self.std + 1e-7)
+    return x
+
+data = torch.tensor([[0, 0], [0, 0], [1, 1], [1, 1]]).float()
+print(data)
+foo = TorchStandardScaler()
+foo.fit(data)
+data
+print(f"mean {foo.mean}, std {foo.std}")
+foo.transform(data)
